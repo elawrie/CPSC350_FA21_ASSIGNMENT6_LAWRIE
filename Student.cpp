@@ -20,7 +20,18 @@ Student::Student(int id, string name, string level, string major, double gpa, in
 
 }
 
-int Student::getStudentID(){
+void Student::print() {
+  cout << "Student" << endl;
+  cout << "Name: " << m_name << endl;
+  cout << "ID: " << m_studentID << endl;
+  cout << "Level: " << m_levelField << endl;
+  cout << "Major: " << m_major << endl;
+  cout << "GPA: " << m_gpa << endl;
+  cout << "Advisor: " << m_advisor << endl;
+  cout << endl;
+}
+
+int Student::getID(){
   return m_studentID;
 }
 

@@ -1,1 +1,46 @@
+/*
+Evelyn lawrie
+2364909
+lawrie@chapman.edu
+CPSC 350-01
+Assignment 6
 
+Alejandro Rea
+2378582
+area@chapman.edu
+CPSC350-01
+Assignment 6
+*/
+
+/* This is the header file for the FileProcessor class that outlines
+the necessary functions and member variables to process a file. */
+
+#ifndef FILE_PROCESSOR_H
+#define FILE_PROCESSOR_H
+
+#include <iostream>
+#include <fstream>
+#include "TemplateDLL.h"
+#include "Student.h"
+
+
+using namespace std;
+
+class FileProcessor{
+
+public:
+
+  //default constructor
+  FileProcessor();
+  //destructor
+  ~FileProcessor();
+
+  void processStudentFile(string studentFile);
+  void processFacultyFile(string facultyFile);
+  void ltrim(string &token);
+  void rtrim(string &token);
+
+};
+
+
+#endif

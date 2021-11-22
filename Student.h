@@ -11,11 +11,11 @@ public:
   Student(int id, string name, string level, string major, double gpa, int advisor);
 
   ~Student();
-
+  void print();
   bool operator<(const Student& s);
   bool operator==(const Student& s);
 
-  int getStudentID();
+  int getID();
 
 private:
   int m_studentID;

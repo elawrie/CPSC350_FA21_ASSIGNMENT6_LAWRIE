@@ -69,6 +69,7 @@ class BST {
     void deleteTree(TreeNode<T> *node); // method to delete the tree
     void insert(T value); // method to insert a value into the tree
     bool contains(T value); // method to search the tree
+    T find(int id); // method to search a tree and return the data at the number key
     bool deleteNode(T k); // method to delete a node from the tree
     bool isEmpty(); // method to check if the tree is empty
     T* getMin(); // method to get the minumum value in the tree
@@ -76,6 +77,7 @@ class BST {
     TreeNode<T>* getSuccessor(TreeNode<T> *d); // method to get the successor from a node to delete
     void printNodes(); // method to print the nodes
     void recursivePrint(TreeNode<T> *node); // method to recursively print the nodes
+    TreeNode<T> getRoot(); // returns the root of the tree
   private:
     TreeNode<T> *root; // root of the tree
 };
@@ -92,6 +94,15 @@ BST<T>::BST() {
 template <class T>
 BST<T>::~BST() {
   deleteTree(root);
+}
+
+/*
+method to return the root of the tree
+returns a tree node representing the tree's root
+*/
+template <class T>
+TreeNode<T> BST<T>::getRoot() {
+  return root;
 }
 
 /*
@@ -244,6 +255,34 @@ bool BST<T>::contains(T value) {
       }
     }
     return true;
+  }
+}
+
+/*
+method to search the tree for a value
+parameter is an integer representing the id to find in the tree
+returns a generic type pointer representing the value found in the tree
+*/
+template <class T>
+T BST<T>::find(int id) {
+  if (isEmpty()) {
+    return NULL;
+  }
+  else {
+    // if tree is not empty, look for the value
+    TreeNode<T> *current = root;
+    while (current->key->getID() != id) {
+      if (id < current->key->getID()) {
+        current = current->left;
+      }
+      else {
+        current = current->right;
+      }
+      if (current == NULL) {
+        return NULL;
+      }
+    }
+    return current->key;
   }
 }
 

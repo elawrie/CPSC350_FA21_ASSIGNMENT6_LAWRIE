@@ -17,10 +17,15 @@ Assignment 6
 #ifndef DATABASESIMULATOR_H
 #define DATABASESIMULATOR_H
 
+#include "Student.h"
+#include "Faculty.h"
+#include "TemplateBST.h"
+#include "FileProcessor.h"
+
 class DatabaseSimulator {
   public:
     DatabaseSimulator(); // default constructor
-    ~DatabaseSimulator(); // overloaded constructor
+    ~DatabaseSimulator(); // destructor 
     void populateDatabases(); // method to populate the initial databases
     void displayMenu(); // method to display the list of menu options
     void printAllStuds(); // method to print all students in ascending order by ID
@@ -38,8 +43,8 @@ class DatabaseSimulator {
     void rollback(); // method to reverse up to the last five commands
   private:
     FileProcessor *m_fp;
-    BST<Student*> *m_studDatabase;
-    BST<Faculty*> *m_facDatabase;
+    BST<Student*> *masterStudent;
+    BST<Faculty*> *masterFaculty;
 };
 
 
