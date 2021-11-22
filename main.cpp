@@ -16,13 +16,7 @@ Assignment 6
 #include <string>
 
 int main(int argc, char **argv) {
-  BST<int> *bst = new BST<int>();
-  bst->insert(4);
-  bst->insert(8);
-  bst->insert(2);
-  bst->insert(6);
-  bst->insert(10);
-  bst->printNodes();
-  delete bst;
+  DatabaseSimulator *ds = new DatabaseSimulator();
+  ds.simulate();
   return 0;
 }

@@ -270,7 +270,7 @@ bool BST<T>::deleteNode(T k) {
   TreeNode<T> *parent = root; // do this since we may be deleting the root
   bool isLeft = true;
   // find the value so that we can set current and parent
-  while (current ->key != k) {
+  while (current-> key != k) {
     parent = current; // parent must stay one above current
     if (k < current->key) {
       isLeft = true;
