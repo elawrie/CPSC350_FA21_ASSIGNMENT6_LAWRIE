@@ -25,7 +25,7 @@ Assignment 6
 class DatabaseSimulator {
   public:
     DatabaseSimulator(); // default constructor
-    ~DatabaseSimulator(); // destructor 
+    ~DatabaseSimulator(); // destructor
     void populateDatabases(); // method to populate the initial databases
     void displayMenu(); // method to display the list of menu options
     void printAllStuds(); // method to print all students in ascending order by ID
