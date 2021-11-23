@@ -17,4 +17,17 @@ Student::Student(int id, string name, string level, string major, double gpa, in
   m_major = major;
   m_gpa = gpa;
   m_advisor = advisor;
+
+}
+
+int Student::getStudentID(){
+  return m_studentID;
+}
+
+bool Student::operator <(const Student& s){
+  if(this->m_studentID < s.m_studentID){
+    return true;
+  }
+  return false;
+
 }
