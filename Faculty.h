@@ -13,6 +13,7 @@ public:
   ~Faculty();
 
   bool operator<(const Faculty& f);
+  bool operator==(const Faculty& f);
 private:
   int m_facultyID;
   string m_name;

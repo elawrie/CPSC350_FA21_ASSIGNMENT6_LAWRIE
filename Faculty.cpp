@@ -3,9 +3,9 @@
 
 Faculty::Faculty(){
   m_facultyID = 0;
-  m_name = NULL;
-  m_levelField = NULL;
-  m_department = NULL;
+  m_name = "";
+  m_levelField = "";
+  m_department = "";
 }
 
 Faculty::Faculty(int id, string name, string level, string department){
@@ -19,6 +19,14 @@ Faculty::Faculty(int id, string name, string level, string department){
 
 bool Faculty::operator <(const Faculty& f){
   if(this->m_facultyID < f.m_facultyID){
+    return true;
+  }
+  return false;
+
+}
+
+bool Faculty::operator ==(const Faculty& f){
+  if(this->m_facultyID == f.m_facultyID){
     return true;
   }
   return false;

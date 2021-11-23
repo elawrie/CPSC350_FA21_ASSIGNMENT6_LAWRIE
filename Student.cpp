@@ -3,9 +3,9 @@
 
 Student::Student(){
   m_studentID = 0;
-  m_name = NULL;
-  m_levelField = NULL;
-  m_major = NULL;
+  m_name = "";
+  m_levelField = "";
+  m_major = "";
   m_gpa = 0;
   m_advisor = 0;
 }
@@ -26,6 +26,14 @@ int Student::getStudentID(){
 
 bool Student::operator <(const Student& s){
   if(this->m_studentID < s.m_studentID){
+    return true;
+  }
+  return false;
+
+}
+
+bool Student::operator ==(const Student& s){
+  if(this->m_studentID == s.m_studentID){
     return true;
   }
   return false;
