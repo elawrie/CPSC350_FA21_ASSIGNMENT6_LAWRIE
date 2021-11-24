@@ -17,6 +17,11 @@ Assignment 6
 #ifndef DATABASESIMULATOR_H
 #define DATABASESIMULATOR_H
 
+#include "Student.h"
+#include "Faculty.h"
+#include "TemplateBST.h"
+#include "FileProcessor.h"
+
 class DatabaseSimulator {
   public:
     DatabaseSimulator(); // default constructor

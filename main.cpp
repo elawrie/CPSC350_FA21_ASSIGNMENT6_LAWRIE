@@ -13,10 +13,13 @@ Assignment 6
 */
 
 #include "TemplateBST.h"
+#include "DatabaseSimulator.h"
 #include <string>
 
 int main(int argc, char **argv) {
   DatabaseSimulator *ds = new DatabaseSimulator();
-  ds.simulate();
+  FileProcessor *processor = new FileProcessor();
+  processor->processStudentFile("student.txt");
+  //ds->simulate();
   return 0;
 }
