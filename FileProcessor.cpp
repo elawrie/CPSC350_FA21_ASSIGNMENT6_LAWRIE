@@ -35,10 +35,11 @@ void FileProcessor::processStudentFile(string fileInput){
     string major;
     double gpa;
     int advisorID;
-    Student *studentNode; //node of a student tree
+    Student *studentToAdd; //node of a student tree
     string value; //the content (value) we are to assign to a member variable
     string delimiter = ","; //what separates our member variables in a line
     size_t index; // index the delimiter was found
+    int infoCounter = 0;
 
     while(getline(reader, line)){
       cout << "Inside big while loop and our line is " << line << endl;
@@ -46,14 +47,34 @@ void FileProcessor::processStudentFile(string fileInput){
       while((index != -1)){
         index = line.find(delimiter);
         cout << index << " is index where delimiter was found" <<endl;
-        value = line.substr(0,index).trim;
+        value = line.substr(0,index);
+        ltrim(value);
+        if(infoCounter == 0){
+          id = stoi(value);
+        }
+        if(infoCounter == 1){
+          name = value;
+        }
+        if(infoCounter == 2){
+          level = value;
+        }
+        if(infoCounter == 3){
+          major = value;
+        }
+        if(infoCounter == 4){
+          gpa = stod(value);
+        }
+        if(infoCounter == 5){
+          advisorID = stoi(value);
+        }
         cout << "TOKEN:" << "[" << value << "]" << endl;
         line.erase(0, index + delimiter.length());
         cout << "REST OF THE LINE IS: " << line << endl;
 
         cout << "line length: " << line.length() << endl;
+        infoCounter++;
       }
-
+      studentToAdd = new Student(id, name, level, major, gpa, advisorID);
     }
 
   }
@@ -70,9 +91,8 @@ void FileProcessor::processFacultyFile(string fileInput){
     string name;
     string level;
     string department;
-    double gpa;
-    int advisorID;
-    DoubleListNode<Student*> *studentNode; //node of a student tree
+    TemplateDLL<int> *adviseesList = new TemplateDLL<int>();
+    Faculty *facultyToAdd; //node of a student tree
     string value; //the content (value) we are to assign to a member variable
     string delimiter = ","; //what separates our member variables in a line
     size_t index; // index the delimiter was found
@@ -87,13 +107,26 @@ void FileProcessor::processFacultyFile(string fileInput){
         index = line.find(delimiter);
         cout << index << " is index where delimiter was found" <<endl;
         value = line.substr(0,index);
+        ltrim(value);
+        if(infoCounter == 0){
+          id = stoi(value);
+        }
+        if(infoCounter == 1){
+          name = value;
+        }
+        if(infoCounter == 2){
+          level = value;
+        }
+        if(infoCounter == 3){
+          department = value;
+        }
+        if(infoCounter == 4){
+          adviseesList->insertBack(stoi(value));
+        }
         cout << "TOKEN: " << value << endl;
         line.erase(0, index + delimiter.length());
         cout << "REST OF THE LINE IS: " << line << endl;
         cout << "std npos: " << std::string::npos << endl;
-        if(infoCounter > 4){
-          //add every item after this point to list of advisees
-        }
 
       }
 
@@ -102,6 +135,25 @@ void FileProcessor::processFacultyFile(string fileInput){
   }
 }
 
-void FileProcessor::ltrim(String &token){
+void FileProcessor::ltrim(string &token){
+  bool characterFound = false;
+  while(characterFound == false){
+    if(token[0] != ' '){
+      characterFound = true;
+    }
+    else{
+      token.erase(0, 1);
+    }
+  }
+}
 
+void FileProcessor::rtrim(string &token){
+  bool characterFound = false;
+  for(int i = token.size() - 1; characterFound == true; i--){
+    if(token[i] != ' '){
+      characterFound = true;
+    }else{
+      token.erase(i-1,1);
+    }
+  }
 }

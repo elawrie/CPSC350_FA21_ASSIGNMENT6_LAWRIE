@@ -20,8 +20,10 @@ the necessary functions and member variables to process a file. */
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "TemplateDLL.h"
 #include "Student.h"
+#include "Faculty.h"
 
 
 using namespace std;
@@ -39,7 +41,7 @@ public:
   void processStudentFile(string studentFile);
   void processFacultyFile(string facultyFile);
   void ltrim(string &token);
-  void ltrim(string &token);
+  void rtrim(string &token);
 
 };
 
