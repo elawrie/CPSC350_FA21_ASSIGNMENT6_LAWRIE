@@ -130,7 +130,7 @@ void BST<T>::recursivePrint(TreeNode<T> *node) {
     return;
   }
   recursivePrint(node->left);
-  cout << node->key << endl;
+  node->key->print();
   recursivePrint(node->right);
 }
 

@@ -38,9 +38,10 @@ class DatabaseSimulator {
     void deleteStud(int id); // method to delete a student given their ID
     void addFac(); // method to add a faculty member
     void deleteFac(int id); // method to delete a faculty memeber by ID
-    void changeAdvisor(int studId, int facId); // method to change a student's advisor given both their IDs
-    void removeAdvisee(int studId, int facId); // method to remove an advisee from a faculty member given both their IDs
+    void changeAdvisor(int studId, int facId, bool delFac); // method to change a student's advisor given both their IDs
+    void removeAdvisee(int studId, int facId, bool delStud); // method to remove an advisee from a faculty member given both their IDs
     void rollback(); // method to reverse up to the last five commands
+    void simulate(); // method to run the student database simulation
   private:
     FileProcessor *m_fp;
     BST<Student*> *masterStudent;

@@ -14,15 +14,16 @@ public:
   void print();
   void printAdvisees();
   void addAdvisee(int id); // method to add a student as an advisee by ID number
+  void removeAdvisee(int id); // method to remove a student as an advisee by ID number 
   bool operator<(const Faculty& f);
   bool operator==(const Faculty& f);
-  int getID(); 
+  int getID();
+  TemplateDLL<int> *m_advisees;
 private:
   int m_facultyID;
   string m_name;
   string m_levelField;
   string m_department;
-  TemplateDLL<int> *m_advisees;
 
 
 

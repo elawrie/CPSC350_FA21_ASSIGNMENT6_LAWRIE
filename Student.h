@@ -14,7 +14,8 @@ public:
   void print();
   bool operator<(const Student& s);
   bool operator==(const Student& s);
-
+  int getAdvisor();
+  void setAdvisor(int advisor);
   int getID();
 
 private:

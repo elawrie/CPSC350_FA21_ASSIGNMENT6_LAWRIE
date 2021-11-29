@@ -32,7 +32,13 @@ void Faculty::printAdvisees() {
 }
 
 void Faculty::addAdvisee(int id) {
-  m_advisees->insertBack(id);
+  if (m_advisees->find(id) == -1) {
+    m_advisees->insertBack(id);
+  }
+}
+
+void Faculty::removeAdvisee(int id) {
+  m_advisees->removeNode(id);
 }
 
 int Faculty::getID() {

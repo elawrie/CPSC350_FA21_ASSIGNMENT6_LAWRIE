@@ -81,6 +81,7 @@ public:
   void printList(bool PrintLink);
   void printReverseList(bool PrintLink);
   void sort();
+  DoubleListNode<T>* getFront();
 };
 
 //default constructor
@@ -105,6 +106,15 @@ TemplateDLL<T>::~TemplateDLL(){
     currNode = nextNode;
 
   }
+}
+
+/*
+getFront method returns the node at the front of the list
+returns a double list node pointer of a generic type
+*/
+template <class T>
+DoubleListNode<T>* TemplateDLL<T>::getFront() {
+  return front;
 }
 
 /*

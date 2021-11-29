@@ -35,6 +35,14 @@ int Student::getID(){
   return m_studentID;
 }
 
+int Student::getAdvisor() {
+  return m_advisor;
+}
+
+void Student::setAdvisor(int advisor) {
+  m_advisor = advisor;
+}
+
 bool Student::operator <(const Student& s){
   if(this->m_studentID < s.m_studentID){
     return true;
