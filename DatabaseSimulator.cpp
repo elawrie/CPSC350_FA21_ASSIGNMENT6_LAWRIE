@@ -32,8 +32,8 @@ DatabaseSimulator::DatabaseSimulator() {
   masterStudent->insert(stud1);
   masterStudent->insert(stud2);
   masterStudent->insert(stud3);
-  Faculty *fac1 = new Faculty(1234, "Rene German", "Associate Professor", "Computer Science");
-  Faculty *fac2 = new Faculty(4321, "Elizabeth Stevens", "Full Professor", "Computer Science");
+  Faculty *fac1 = new Faculty(1234, "Rene German", "Instructor", "Computer Science");
+  Faculty *fac2 = new Faculty(4321, "Elizabeth Stevens", "Assistant Professor", "Computer Science");
   fac1->addAdvisee(2364909);
   fac1->addAdvisee(2378582);
   fac2->addAdvisee(3243432);
@@ -134,7 +134,7 @@ returns void
 void DatabaseSimulator::printAdvisor(int id) {
   Student *stud = masterStudent->find(id);
   if (stud != NULL) {
-    // FIXME: SHOULD WE CHECK IF A FACULTY IS IN THE OTHER DATABASE BEFORE SETTING A STUDENT'S INITIAL ADVISOR?
+    // FIXME: SHOULD WE CHECK IF A FACULTY IS IN THE OTHER DATABASE BEFORE SETTING A STUDENT'S INITIAL ADVISOR IN FILEPROCESSOR?
     // SHOULD I CHECK HERE IF THE ADVISOR EXISTS?
     masterFaculty->find(stud->getAdvisor())->print();
   }
@@ -258,6 +258,8 @@ void DatabaseSimulator::addFac() {
     cout << "Enter the ID number of the faculty member's advisee: ";
     cin >> advisee;
     // update advisor of student advisee
+    cout << "FAC ID: " << newFac->getID() << endl;
+    cout << "CONTAINS NEW FAC: " << masterFaculty->contains(newFac) << endl;
     changeAdvisor(advisee, newFac->getID(), false);
     cout << "Enter 'a' to add new advisee: ";
     cin >> buffer;
@@ -279,7 +281,6 @@ void DatabaseSimulator::deleteFac(int id) {
       changeAdvisor(current->data, id, true);
       current = current->next;
     }
-    removeAdvisee(id, delFac->getID(), true);
     if (masterFaculty->deleteNode(delFac) == true) {
       // FIXME: DELETE THIS PRINT OUT STATEMENT
       cout << "Deleted faculty member!" << endl;
@@ -304,6 +305,7 @@ void DatabaseSimulator::changeAdvisor(int studId, int facId, bool delFac) {
   }
   if (delFac) {
     stud->setAdvisor(0);
+    // EITHER SET ADVISOR TO 0 OR PROMPT FOR NEW ADVISOR
   }
   else {
     Faculty *fac = masterFaculty->find(facId);
