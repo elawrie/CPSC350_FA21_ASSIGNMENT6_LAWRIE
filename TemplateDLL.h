@@ -80,7 +80,9 @@ public:
   int getSize();
   void printList(bool PrintLink);
   void printReverseList(bool PrintLink);
+  string serializedPrint();
   void sort();
+  DoubleListNode<T>* getFront();
 };
 
 //default constructor
@@ -105,6 +107,15 @@ TemplateDLL<T>::~TemplateDLL(){
     currNode = nextNode;
 
   }
+}
+
+/*
+getFront method returns the node at the front of the list
+returns a double list node pointer of a generic type
+*/
+template <class T>
+DoubleListNode<T>* TemplateDLL<T>::getFront() {
+  return front;
 }
 
 /*
@@ -400,6 +411,21 @@ void TemplateDLL<T>::printReverseList(bool printLink){
       }
     }
     cout << endl;
+}
+
+template <class T>
+string TemplateDLL<T>::serializedPrint(){
+  string serializedList = "";
+  DoubleListNode<T> *curr = front;
+  while(curr != NULL){
+    if(curr->next == NULL){
+      serializedList += to_string(curr->data);
+    }else{
+      serializedList += to_string(curr->data) + ", ";
+    }
+    curr = curr->next;
+  }
+  return serializedList;
 }
 
 

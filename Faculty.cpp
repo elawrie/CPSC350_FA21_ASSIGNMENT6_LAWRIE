@@ -31,8 +31,20 @@ void Faculty::printAdvisees() {
   m_advisees->printList(false);
 }
 
+string Faculty::printSerialized(){
+  string serializedAdvisees = m_advisees->serializedPrint();
+  string serialized = to_string(m_facultyID) + ", " + m_name + ", " + m_levelField + ", " + m_department + ", " + serializedAdvisees + '\n';
+  return serialized;
+}
+
 void Faculty::addAdvisee(int id) {
-  m_advisees->insertBack(id);
+  if (m_advisees->find(id) == -1) {
+    m_advisees->insertBack(id);
+  }
+}
+
+void Faculty::removeAdvisee(int id) {
+  m_advisees->removeNode(id);
 }
 
 int Faculty::getID() {

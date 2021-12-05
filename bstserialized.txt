@@ -1,0 +1,2 @@
+2378459, Juan L, Freshman, Computer Science, 3.900000, 4444
+2378582, Alex Rea, Sophomore, Computer Science, 4.000000, 1234

@@ -17,25 +17,38 @@ Assignment 6
 #include <string>
 
 int main(int argc, char **argv) {
-  // DatabaseSimulator *ds = new DatabaseSimulator();
-  // FileProcessor *processor = new FileProcessor();
-  // processor->processStudentFile("student.txt");
-  Student *stud1 = new Student(2364909, "Evelyn Lawrie", "Sophomore", "Computer Science", 4.0, 1234);
-  Student *stud2 = new Student(2378582, "Alex Rea", "Sophomore", "Computer Science", 4.0, 1234);
-  Student *stud3 = new Student(3243432, "Joe Smith", "Junior", "Computer Engineering", 3.2, 4321);
-  // stud->print();
-  // Faculty *fac = new Faculty(1234, "Rene German", "Associate Professor", "Computer Science");
-  // fac->addAdvisee(2364909);
-  // fac->addAdvisee(2378582);
-  // fac->print();
-  //ds->simulate();
-  BST<Student*> *bst = new BST<Student*>();
-  bst->insert(stud1);
-  bst->insert(stud2);
-  bst->insert(stud3);
-  cout << "FOUND: ";
-  bst->find(2364909)->print();
-  cout << endl;
-  delete bst;
+  // FIXME: PROGRESS UPDATE COMMENT
+  // TESTED ALL THESE METHODS AND THEY WORK!
+  // HAVE SOME QUESTIONS FOR ALEX IN FIXME COMMENTS DATABASESIMULATOR.CPP
+  DatabaseSimulator *ds = new DatabaseSimulator();
+  FileProcessor *processor = new FileProcessor();
+  processor->processStudentFile("student.txt");
+  processor->processFacultyFile("faculty.txt");
+  processor->serializeStudentBST("bstserialized.txt", processor->m_studentBST);
+  processor->serializeFacultyBST("idkgoodtest.txt", processor->m_facultyBST);
+  ds->simulate();
+  delete processor;
+  delete ds;
   return 0;
+
+  /*
+  QUESTIONS FOR RENE IN OH:
+  - can you help me debug my addFac() method if necessary? it works except when you add an advisee when the faculty's ID starts with a 0 => says the faculty ID is invalid
+
+  - can we assume that the student/faculty names will always be two words? faculty level and department will also be two words? => else, is there a way to cin until a return character rather than whitespace?
+
+  - when a faculty/student gets deleted, should we prompt for a new advisee/advisor or make it null when needed?
+
+  - we should remove students from other advisee lists when they get added to a new advisee list, right? FIXME: IMPLEMENT THIS
+
+  - what do you mean by warning the user about referential integrity? which cases should we warn for, and is it okay if we just execute the commands and fix them ourselves?
+
+  - when a student gets deleted, removeAdvisee gets called => should this only prompt for a new advisor for the student if not called from within deleteStud method?
+
+  - when a faculty member is deleted, their advisees have an advisor ID of 0 => is this okay? should we prompt for a new advisor?
+
+  - for inserting students/faculty, when the user inputs specific fields for member variables of students and faculty, should we check to make sure they're putting in valid values?
+
+  - should we trap the user in a while loop when seeing if they inputted a valid faculty member for an advisor when creating a new student? or let the student have no falculty member?
+  */
 }

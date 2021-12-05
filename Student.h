@@ -12,10 +12,13 @@ public:
 
   ~Student();
   void print();
+  string printSerialized();
   bool operator<(const Student& s);
   bool operator==(const Student& s);
-
+  int getAdvisor();
+  void setAdvisor(int advisor);
   int getID();
+  string getName();
 
 private:
   int m_studentID;

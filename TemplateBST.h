@@ -77,6 +77,8 @@ class BST {
     TreeNode<T>* getSuccessor(TreeNode<T> *d); // method to get the successor from a node to delete
     void printNodes(); // method to print the nodes
     void recursivePrint(TreeNode<T> *node); // method to recursively print the nodes
+    string serializedRecursivePrint(TreeNode<T> *node, string& treeString);
+    string serializedPrintNodes(string& treeString);
     TreeNode<T> getRoot(); // returns the root of the tree
   private:
     TreeNode<T> *root; // root of the tree
@@ -130,9 +132,10 @@ void BST<T>::recursivePrint(TreeNode<T> *node) {
     return;
   }
   recursivePrint(node->left);
-  cout << node->key << endl;
+  node->key->print();
   recursivePrint(node->right);
 }
+
 
 /*
 method to print the nodes in the tree
@@ -141,6 +144,32 @@ returns void
 template <class T>
 void BST<T>::printNodes() {
   recursivePrint(root); // print entire tree by utilizing the recursivePrint method
+}
+
+/*
+method to recursively access every node
+parameter is a node to print
+returns a string of all serialized nodes
+*/
+template <class T>
+string BST<T>::serializedRecursivePrint(TreeNode<T> *node, string& treeString){
+  if (node == NULL) { // base case
+    return "";
+  }
+  serializedRecursivePrint(node->left, treeString);
+  treeString += node->key->printSerialized();
+  serializedRecursivePrint(node->right, treeString);
+  return treeString;
+
+}
+
+/*
+method to print the nodes in a serialized fashion
+returns a string of all the nodes in serialized fashion
+*/
+template <class T>
+string BST<T>::serializedPrintNodes(string& treeString) {
+  return serializedRecursivePrint(root, treeString); // print entire tree by utilizing the recursivePrint method
 }
 
 /*
@@ -208,7 +237,7 @@ void BST<T>::insert(T value) {
     while (true) {
       // make comparisons and update current and parent
       parent = current;
-      if (value < current->key) {
+      if (value->getID() < current->key->getID()) {
         // go left
         current = current->left;
         if (current == NULL) {
@@ -243,8 +272,8 @@ bool BST<T>::contains(T value) {
   else {
     // if tree is not empty, look for the value
     TreeNode<T> *current = root;
-    while (current->key != value) {
-      if (value < current->key) {
+    while (current->key->getID() != value->getID()) {
+      if (value->getID() < current->key->getID()) {
         current = current->left;
       }
       else {
@@ -271,17 +300,25 @@ T BST<T>::find(int id) {
   else {
     // if tree is not empty, look for the value
     TreeNode<T> *current = root;
+    cout << "CURRENT KEY: " << current->key << endl;
+    cout << "CURRENT ID: " << current->key->getID() << endl;
     while (current->key->getID() != id) {
       if (id < current->key->getID()) {
+        cout << "GOING LEFT" << endl;
+        cout << "CURRENT LEFT KEY: " << endl;
+        // printNodes();
+        // current->left->key->print();
         current = current->left;
       }
       else {
+        cout << "GOING RIGHT" << endl;
         current = current->right;
       }
       if (current == NULL) {
         return NULL;
       }
     }
+    cout << "KEY: " << current->key << endl;
     return current->key;
   }
 }
@@ -299,6 +336,8 @@ bool BST<T>::deleteNode(T k) {
     return false;
   }
   if (!contains(k)) {
+    cout << "TREE RIGHT BEFORE DELETING:" << endl;
+    printNodes();
     // doesn't contain the value we want to delete
     cout << "Value doesn't exist, can't delete!" << endl;
     return false;
@@ -309,9 +348,9 @@ bool BST<T>::deleteNode(T k) {
   TreeNode<T> *parent = root; // do this since we may be deleting the root
   bool isLeft = true;
   // find the value so that we can set current and parent
-  while (current-> key != k) {
+  while (current->key->getID() != k->getID()) {
     parent = current; // parent must stay one above current
-    if (k < current->key) {
+    if (k->getID() < current->key->getID()) {
       isLeft = true;
       current = current->left;
     }

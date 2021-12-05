@@ -31,8 +31,25 @@ void Student::print() {
   cout << endl;
 }
 
+string Student::printSerialized(){
+  string serialized = to_string(m_studentID) + ", " + m_name + ", " + m_levelField + ", " + m_major + ", " + to_string(m_gpa) + ", " + to_string(m_advisor) + '\n';
+  return serialized;
+}
+
 int Student::getID(){
   return m_studentID;
+}
+
+int Student::getAdvisor() {
+  return m_advisor;
+}
+
+string Student::getName() {
+  return m_name;
+}
+
+void Student::setAdvisor(int advisor) {
+  m_advisor = advisor;
 }
 
 bool Student::operator <(const Student& s){

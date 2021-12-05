@@ -1,0 +1,2 @@
+1234, Rene German, Instructor, Computer Science, 2364909, 273
+4321, Elizabeth Stevens, Assistant Professor, Computer Science, 3243432, 2378582

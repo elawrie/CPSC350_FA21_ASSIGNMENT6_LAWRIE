@@ -16,14 +16,20 @@ Assignment 6
 
 FileProcessor::FileProcessor(){
 
+  m_studentBST = new BST<Student*>();
+  m_facultyBST = new BST<Faculty*>();
+
 }
 
 FileProcessor::~FileProcessor(){
 
 }
 
-void FileProcessor::processStudentFile(string fileInput){
+BST<Student*>* FileProcessor::processStudentFile(string fileInput){
   fstream reader;
+
+  //testing the writing stuff
+  string serializedTree = "";
 
   reader.open(fileInput, ios::in);
 
@@ -40,6 +46,7 @@ void FileProcessor::processStudentFile(string fileInput){
     size_t index; // index the delimiter was found
     int infoCounter;
     Student *studentToAdd;
+
 
     while(getline(reader, line)){
       cout << "Inside big while loop and our line is " << line << endl;
@@ -69,7 +76,8 @@ void FileProcessor::processStudentFile(string fileInput){
         if(infoCounter == 5){
           advisorID = stoi(value);
           studentToAdd = new Student(id, name, level, major, gpa, advisorID);
-          studentToAdd->print();
+          m_studentBST->insert(studentToAdd);
+          //studentToAdd->print();
           cout << "IN infocounter equals 5" << endl;
         }
         cout << "TOKEN:" << "[" << value << "]" << endl;
@@ -82,11 +90,20 @@ void FileProcessor::processStudentFile(string fileInput){
 
     }
 
+
   }
+
+  cout << "BEFORE PRINTING STUDENT BST" << endl;
+  cout << m_studentBST->serializedPrintNodes(serializedTree);
+  cout << "AFTER PRINTING STUDENT BST" << endl;
+  return m_studentBST;
 }
 
-void FileProcessor::processFacultyFile(string fileInput){
+BST<Faculty*>* FileProcessor::processFacultyFile(string fileInput){
   fstream reader;
+
+  //testing the writing stuff
+  string serializedTree = "";
 
   reader.open(fileInput, ios::in);
 
@@ -127,19 +144,24 @@ void FileProcessor::processFacultyFile(string fileInput){
         if(infoCounter == 4){
           facultyToAdd = new Faculty(id, name, level, department);
         }
-        if(infoCounter > 4){
-          if(isprint(value) == 0){
-            facultyToAdd->print();
+        if(infoCounter >= 4){
+          if(line.length() < 4){
+            facultyToAdd->addAdvisee(stoi(value));
+            cout << "THIS IS USING THE PRINT SERIALIZED METHOD: " << facultyToAdd->printSerialized();
+            //facultyToAdd->m_advisees->printList(false);
+            cout << endl;
+            m_facultyBST->insert(facultyToAdd);
+            //facultyToAdd->print();
             break;
           }
           else{
             facultyToAdd->addAdvisee(stoi(value));
           }
         }
-        cout << "TOKEN: " << value << endl;
+        cout << "TOKEN:" << value << endl;
         line.erase(0, index + delimiter.length());
-        cout << "REST OF THE LINE IS: " << line << endl;
-        cout << "std npos: " << std::string::npos << endl;
+        cout << "REST OF THE LINE IS:" << line << endl;
+        cout << "LENGTH OF THE REST OF THE LINE: " << line.length() << endl;
         infoCounter++;
 
       }
@@ -147,6 +169,31 @@ void FileProcessor::processFacultyFile(string fileInput){
     }
 
   }
+
+  cout << "BEFORE PRINTING FACULTY BST" << endl;
+  cout << m_facultyBST->serializedPrintNodes(serializedTree);
+  cout << "AFTER PRINTING FACULTY BST" << endl;
+
+  return m_facultyBST;
+}
+
+void FileProcessor::serializeStudentBST(string outputFileStudent, BST<Student*>* studentBST){
+  string serializedStudentTree = "";
+  fstream writer;
+  writer.open(outputFileStudent, ios::out);
+  writer << studentBST->serializedPrintNodes(serializedStudentTree);
+  writer.close();
+
+
+}
+
+void FileProcessor::serializeFacultyBST(string outputFileFaculty, BST<Faculty*>* facultyBST){
+  string serializedFacultyTree = "";
+  fstream writer;
+  writer.open(outputFileFaculty, ios::out);
+  writer << facultyBST->serializedPrintNodes(serializedFacultyTree);
+  writer.close();
+
 }
 
 void FileProcessor::ltrim(string &token){
@@ -171,3 +218,9 @@ void FileProcessor::rtrim(string &token){
     }
   }
 }
+
+// every time u insert store a delete
+// every time u delete store an insert
+//
+// pointer to a student
+// pointer to a faculty
