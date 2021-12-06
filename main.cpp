@@ -22,10 +22,10 @@ int main(int argc, char **argv) {
   // HAVE SOME QUESTIONS FOR ALEX IN FIXME COMMENTS DATABASESIMULATOR.CPP
   DatabaseSimulator *ds = new DatabaseSimulator();
   FileProcessor *processor = new FileProcessor();
-  processor->processStudentFile("student.txt");
-  processor->processFacultyFile("faculty.txt");
-  processor->serializeStudentBST("bstserialized.txt", processor->m_studentBST);
-  processor->serializeFacultyBST("idkgoodtest.txt", processor->m_facultyBST);
+  // processor->processStudentFile("student.txt");
+  // processor->processFacultyFile("faculty.txt")->printNodes();
+  // processor->serializeStudentBST("bstserialized.txt", processor->m_studentBST);
+  // processor->serializeFacultyBST("idkgoodtest.txt", processor->m_facultyBST);
   ds->simulate();
   delete processor;
   delete ds;

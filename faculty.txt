@@ -1,2 +1,1 @@
-1234, Rene German, Lecturer, Computer Science, 2378582
-4444, Erik Linstead, Full, Computer Science, 2378459
+4444, Erik Linstead, Full, Computer Science, 3

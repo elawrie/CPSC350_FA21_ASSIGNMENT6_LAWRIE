@@ -33,6 +33,7 @@ void Faculty::printAdvisees() {
 
 string Faculty::printSerialized(){
   string serializedAdvisees = m_advisees->serializedPrint();
+  cout << "THE SERIALIZED ADVISEES:" << serializedAdvisees << endl; 
   string serialized = to_string(m_facultyID) + ", " + m_name + ", " + m_levelField + ", " + m_department + ", " + serializedAdvisees + '\n';
   return serialized;
 }

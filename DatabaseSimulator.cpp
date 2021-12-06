@@ -26,24 +26,24 @@ DatabaseSimulator::DatabaseSimulator() {
   m_fp = new FileProcessor();
   masterStudent = new BST<Student*>(); // m_fp->processStudentFile();
   masterFaculty = new BST<Faculty*>(); // m_fp->processFacultyFile();
-  // masterStudent = m_fp->processStudentFile("student.txt"); // m_fp->processStudentFile();
-  // masterFaculty = m_fp->processFacultyFile("faculty.txt"); // m_fp->processFacultyFile();
+  masterStudent = m_fp->processStudentFile("studentTable.txt"); // m_fp->processStudentFile();
+  masterFaculty = m_fp->processFacultyFile("facultyTable.txt"); // m_fp->processFacultyFile();
 
 
-  // FIXME DELETE LATER: FOR TESTING
-  Student *stud1 = new Student(2364909, "Evelyn Lawrie", "Sophomore", "Computer Science", 4.0, 1234);
-  Student *stud2 = new Student(2378582, "Alex Rea", "Sophomore", "Computer Science", 4.0, 0);
-  Student *stud3 = new Student(3243432, "Joe Smith", "Junior", "Computer Engineering", 3.2, 4321);
-  masterStudent->insert(stud1);
-  masterStudent->insert(stud2);
-  masterStudent->insert(stud3);
-  Faculty *fac1 = new Faculty(1234, "Rene German", "Instructor", "Computer Science");
-  Faculty *fac2 = new Faculty(4321, "Elizabeth Stevens", "Assistant Professor", "Computer Science");
-  fac1->addAdvisee(2364909);
-  // fac1->addAdvisee(2378582);
-  fac2->addAdvisee(3243432);
-  masterFaculty->insert(fac1);
-  masterFaculty->insert(fac2);
+  //FIXME DELETE LATER: FOR TESTING
+  // Student *stud1 = new Student(2364909, "Evelyn Lawrie", "Sophomore", "Computer Science", 4.0, 1234);
+  // Student *stud2 = new Student(2378582, "Alex Rea", "Sophomore", "Computer Science", 4.0, 0);
+  // Student *stud3 = new Student(3243432, "Joe Smith", "Junior", "Computer Engineering", 3.2, 4321);
+  // masterStudent->insert(stud1);
+  // masterStudent->insert(stud2);
+  // masterStudent->insert(stud3);
+  // Faculty *fac1 = new Faculty(1234, "Rene German", "Instructor", "Computer Science");
+  // Faculty *fac2 = new Faculty(4321, "Elizabeth Stevens", "Assistant Professor", "Computer Science");
+  // fac1->addAdvisee(2364909);
+  // // fac1->addAdvisee(2378582);
+  // fac2->addAdvisee(3243432);
+  // masterFaculty->insert(fac1);
+  // masterFaculty->insert(fac2);
 }
 
 // destructor
@@ -65,6 +65,15 @@ void DatabaseSimulator::simulate() {
   int facId;
   string buffer;
   int rollbackCount = 0;
+  bool didRollback;
+  // validate BSTs from files
+  cout << "MASTER STUDENT ROOT: ";
+  masterStudent->root->key->print();
+  cout << endl;
+  if (validateBSTs(masterStudent->root) == false) {
+    cout << "There is a mismatch of a student/faculty pair." << endl;
+    return;
+  }
   do {
     cout << endl << "ROLLBACK COUNT: " << rollbackCount << endl;
     displayMenu();
@@ -171,12 +180,14 @@ void DatabaseSimulator::simulate() {
 
     }
     else if (userInput == "13") {
-      ++rollbackCount;
       if (rollbackCount > 5) {
         cout << "Cannot undo more actions: rollback limit has been reached" << endl;
         continue;
       }
-      rollback();
+      didRollback = rollback();
+      if(didRollback){
+        ++rollbackCount;
+      }
 
     }
     else {
@@ -604,7 +615,12 @@ void DatabaseSimulator::removeAdvisee(int studId, int facId, bool delStud) {
   }
 }
 
-void DatabaseSimulator::rollback(){
+bool DatabaseSimulator::rollback(){
+
+  if(rollbackStack->isEmpty()){
+    cout << "No action to undo!" << endl;
+    return false;
+  }
   // TODO: CHECK IF STACK EMPTY AND RETURN IF TRUE
   cout << "stack is this: " << endl;
   rollbackStack->print(false);
@@ -648,6 +664,7 @@ void DatabaseSimulator::rollback(){
   }
   cout << "stack is now this: " << endl;
   rollbackStack->print(false);
+  return true;
 }
 
 int DatabaseSimulator::generateId(bool faculty) {
@@ -686,4 +703,24 @@ bool DatabaseSimulator::validateGPA(string gpa) {
     }
   }
   return true;
+}
+
+bool DatabaseSimulator::validateBSTs(TreeNode<Student*> *node) {
+
+  if (node == NULL) { // base case
+    return true;
+  }
+  validateBSTs(node->left);
+  if(masterFaculty->find(node->key->getAdvisor()) == NULL){
+    return false;
+  }
+  if(masterFaculty->find(node->key->getAdvisor())->m_advisees->find(node->key->getID()) == -1){
+    return false;
+  }
+  validateBSTs(node->right);
+
+  //return true;
+  // traverse student tree
+  // check if each student's advisor exists in the faculty bst
+  // check if each advisor has that student in their list of advisees
 }

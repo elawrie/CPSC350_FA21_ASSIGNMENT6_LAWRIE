@@ -42,13 +42,14 @@ class DatabaseSimulator {
     void deleteFac(int id, bool isRollback); // method to delete a faculty memeber by ID
     void changeAdvisor(int studId, int facId, bool delFac, bool isRollback); // method to change a student's advisor given both their IDs
     void removeAdvisee(int studId, int facId, bool delStud); // method to remove an advisee from a faculty member given both their IDs
-    void rollback(); // method to reverse up to the last five commands => create a class with type of command and data (pointer to a person and cast to student or faculty or pointer to student and pointer to faculty), only worry about this when inserting or delete (don't have to keep track of rollback updates),
+    bool rollback(); // method to reverse up to the last five commands => create a class with type of command and data (pointer to a person and cast to student or faculty or pointer to student and pointer to faculty), only worry about this when inserting or delete (don't have to keep track of rollback updates),
     void rollbackChangeAdvisee();
     void simulate(); // method to run the student database simulation
     int generateId(bool faculty);
     bool validateID(string id);
     bool validateGPA(string gpa);
     // FIXME: CREATE METHOD TO VALIDATE BSTs => CHECK IF INITIAL ADVISORS AND ADVISEES EXIST
+    bool validateBSTs(TreeNode<Student*> *node);
   private:
     FileProcessor *m_fp;
     BST<Student*> *masterStudent;

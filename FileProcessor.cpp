@@ -145,18 +145,23 @@ BST<Faculty*>* FileProcessor::processFacultyFile(string fileInput){
           facultyToAdd = new Faculty(id, name, level, department);
         }
         if(infoCounter >= 4){
-          if(line.length() < 4){
-            facultyToAdd->addAdvisee(stoi(value));
-            cout << "THIS IS USING THE PRINT SERIALIZED METHOD: " << facultyToAdd->printSerialized();
-            //facultyToAdd->m_advisees->printList(false);
-            cout << endl;
-            m_facultyBST->insert(facultyToAdd);
-            //facultyToAdd->print();
+          if(!validateID(value)){
             break;
           }
-          else{
-            facultyToAdd->addAdvisee(stoi(value));
-          }
+          facultyToAdd->addAdvisee(stoi(value));
+          // if(line.length() < 4){
+          //   facultyToAdd->addAdvisee(stoi(value));
+          //   cout << "THIS IS USING THE PRINT SERIALIZED METHOD: " << facultyToAdd->printSerialized();
+          //   //facultyToAdd->m_advisees->printList(false);
+          //   cout << endl;
+          //   m_facultyBST->insert(facultyToAdd);
+          //   //facultyToAdd->print();
+          //   break;
+          // }
+          // else{
+          //   cout << "ADDING TO ADVISEES LIST" << endl;
+          // }
+
         }
         cout << "TOKEN:" << value << endl;
         line.erase(0, index + delimiter.length());
@@ -165,6 +170,8 @@ BST<Faculty*>* FileProcessor::processFacultyFile(string fileInput){
         infoCounter++;
 
       }
+
+      m_facultyBST->insert(facultyToAdd);
 
     }
 
@@ -217,6 +224,15 @@ void FileProcessor::rtrim(string &token){
       token.erase(i-1,1);
     }
   }
+}
+
+bool FileProcessor::validateID(string id) {
+  for (int i = 0; i < id.length() - 1; ++i) {
+    if (!isprint(id[i])) {
+      return false;
+    }
+  }
+  return true;
 }
 
 // every time u insert store a delete

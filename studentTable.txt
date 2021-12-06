@@ -1,4 +1,4 @@
-273, sdf, f, d, 3.000000, 1234
 2364909, Evelyn Lawrie, Sophomore, Computer Science, 4.000000, 1234
-2378582, Alex Rea, Sophomore, Computer Science, 4.000000, 4321
+2378459, Juan L, Freshman, Computer Science, 3.900000, 4444
+2378582, Alex Rea, Sophomore, Computer Science, 4.000000, 4444
 3243432, Joe Smith, Junior, Computer Engineering, 3.200000, 4321

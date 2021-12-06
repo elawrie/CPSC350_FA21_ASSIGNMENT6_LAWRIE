@@ -80,8 +80,9 @@ class BST {
     string serializedRecursivePrint(TreeNode<T> *node, string& treeString);
     string serializedPrintNodes(string& treeString);
     TreeNode<T> getRoot(); // returns the root of the tree
-  private:
     TreeNode<T> *root; // root of the tree
+  private:
+    //TreeNode<T> *root; // root of the tree
 };
 
 // implementation for bst
@@ -104,6 +105,8 @@ returns a tree node representing the tree's root
 */
 template <class T>
 TreeNode<T> BST<T>::getRoot() {
+
+  cout << "root is " << root << endl;
   return root;
 }
 

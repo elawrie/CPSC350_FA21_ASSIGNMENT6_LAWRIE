@@ -52,6 +52,7 @@ public:
   void serializeFacultyBST(string outputFile, BST<Faculty*>* facultyBST);
   void ltrim(string &token);
   void rtrim(string &token);
+  bool validateID(string id);
   BST<Student*> *m_studentBST;
   BST<Faculty*> *m_facultyBST;
 
