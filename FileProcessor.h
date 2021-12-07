@@ -1,11 +1,9 @@
 /*
-Evelyn lawrie
+Evelyn Lawrie
 2364909
 lawrie@chapman.edu
 CPSC 350-01
 Assignment 6
-
-/*
 
 
 Alejandro Rea
@@ -46,20 +44,15 @@ public:
   //destructor
   ~FileProcessor();
 
-  BST<Student*>* processStudentFile(string studentFile);
-  BST<Faculty*>* processFacultyFile(string facultyFile);
-  void serializeStudentBST(string outputFile, BST<Student*>* studentBST);
-  void serializeFacultyBST(string outputFile, BST<Faculty*>* facultyBST);
-  void ltrim(string &token);
-  void rtrim(string &token);
-  bool validateID(string id);
-  BST<Student*> *m_studentBST;
-  BST<Faculty*> *m_facultyBST;
+  BST<Student*>* processStudentFile(string studentFile); //reads in all the information from a text file to form a student* based BST according to that info
+  BST<Faculty*>* processFacultyFile(string facultyFile); //reads in all the information from a text file to form a faculty* based BST according to that info
+  void serializeStudentBST(string outputFile, BST<Student*>* studentBST); // writes the student BST in serialized format to a file
+  void serializeFacultyBST(string outputFile, BST<Faculty*>* facultyBST); // writes the faculty BST in serialized format to a file
+  void ltrim(string &token); //removes extra whitespace before a token
+  bool validateID(string id); //checks if the ID of a student/advisor is a valid number
+  BST<Student*> *m_studentBST; //Student* based BST that contains info from studentTable
+  BST<Faculty*> *m_facultyBST; //Faculty* based BST that contains info from facultyTable
 
-private:
-
-  // BST<Student*> *m_studentBST;
-  // BST<Faculty*> *m_facultyBST;
 
 };
 

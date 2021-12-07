@@ -43,22 +43,17 @@ class DatabaseSimulator {
     void changeAdvisor(int studId, int facId, bool delFac, bool isRollback); // method to change a student's advisor given both their IDs
     void removeAdvisee(int studId, int facId, bool delStud); // method to remove an advisee from a faculty member given both their IDs
     bool rollback(); // method to reverse up to the last five commands => create a class with type of command and data (pointer to a person and cast to student or faculty or pointer to student and pointer to faculty), only worry about this when inserting or delete (don't have to keep track of rollback updates),
-    void rollbackChangeAdvisee();
     void simulate(); // method to run the student database simulation
-    int generateId(bool faculty);
-    bool validateID(string id);
-    bool validateGPA(string gpa);
-    // FIXME: CREATE METHOD TO VALIDATE BSTs => CHECK IF INITIAL ADVISORS AND ADVISEES EXIST
-    bool validateBSTs(TreeNode<Student*> *node);
+    int generateId(bool faculty); // method to generate IDs for input faculty and students
+    bool validateID(string id); // method to validate a given ID
+    bool validateGPA(string gpa); // method to validate a given GPA
+    bool validateBSTs(TreeNode<Student*> *node); // method to validate the original BSTs for referential integrity
+    void validateStudents(TreeNode<Student*> *node, int facId); // method to assign students without an advisor to the given advisor
   private:
-    FileProcessor *m_fp;
-    BST<Student*> *masterStudent;
-    BST<Faculty*> *masterFaculty;
-    GenStack<RollbackObject*> *rollbackStack;
-
+    FileProcessor *m_fp; // file processor
+    BST<Student*> *masterStudent; // student BST
+    BST<Faculty*> *masterFaculty; // faculty BST
+    GenStack<RollbackObject*> *rollbackStack; // rollback
 };
-
-
-
 
 #endif

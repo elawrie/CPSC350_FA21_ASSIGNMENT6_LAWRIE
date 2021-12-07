@@ -1,5 +1,5 @@
 /*
-Evelyn lawrie
+Evelyn Lawrie
 2364909
 lawrie@chapman.edu
 CPSC 350-01
@@ -12,6 +12,8 @@ CPSC 350-01
 Assignment 6
 */
 
+// implements file processor class
+
 #include "FileProcessor.h"
 
 FileProcessor::FileProcessor(){
@@ -22,13 +24,18 @@ FileProcessor::FileProcessor(){
 }
 
 FileProcessor::~FileProcessor(){
-
+  delete m_studentBST;
+  delete m_facultyBST;
 }
 
+
+/*
+method to read in the information of the text file containing student information
+returns a BST that has all of the students information
+*/
 BST<Student*>* FileProcessor::processStudentFile(string fileInput){
   fstream reader;
 
-  //testing the writing stuff
   string serializedTree = "";
 
   reader.open(fileInput, ios::in);
@@ -49,15 +56,23 @@ BST<Student*>* FileProcessor::processStudentFile(string fileInput){
 
 
     while(getline(reader, line)){
-      cout << "Inside big while loop and our line is " << line << endl;
       index = 0;
       infoCounter = 0;
       studentToAdd = NULL;
       while((index != -1)){
         index = line.find(delimiter);
-        cout << index << " is index where delimiter was found" <<endl;
         value = line.substr(0,index);
         ltrim(value);
+        // if(!validateID(value)){
+        //   getline(reader, line);
+        //   if(reader.eof()){
+        //     cout << "end of file" << endl;
+        //     return m_studentBST;
+        //   }
+        //   cout << "VALUE: " << value << endl;
+        //   cout << "File contains bad input" << endl;
+        //   exit(0);
+        // }
         if(infoCounter == 0){
           id = stoi(value);
         }
@@ -77,14 +92,8 @@ BST<Student*>* FileProcessor::processStudentFile(string fileInput){
           advisorID = stoi(value);
           studentToAdd = new Student(id, name, level, major, gpa, advisorID);
           m_studentBST->insert(studentToAdd);
-          //studentToAdd->print();
-          cout << "IN infocounter equals 5" << endl;
         }
-        cout << "TOKEN:" << "[" << value << "]" << endl;
         line.erase(0, index + delimiter.length());
-        cout << "REST OF THE LINE IS:" << line << endl;
-
-        cout << "line length: " << line.length() << endl;
         infoCounter++;
       }
 
@@ -93,12 +102,14 @@ BST<Student*>* FileProcessor::processStudentFile(string fileInput){
 
   }
 
-  cout << "BEFORE PRINTING STUDENT BST" << endl;
-  cout << m_studentBST->serializedPrintNodes(serializedTree);
-  cout << "AFTER PRINTING STUDENT BST" << endl;
   return m_studentBST;
 }
 
+
+/*
+method to read in the information of the text file containing faculty information
+returns a BST that has the information of faculty members
+*/
 BST<Faculty*>* FileProcessor::processFacultyFile(string fileInput){
   fstream reader;
 
@@ -120,15 +131,24 @@ BST<Faculty*>* FileProcessor::processFacultyFile(string fileInput){
     Faculty *facultyToAdd; //node of a student tree
 
     while(getline(reader, line)){
-      cout << "Inside big while loop and our line is " << line << endl;
       index = 0;
       infoCounter = 0;
       facultyToAdd = NULL;
       while((index != -1)){
         index = line.find(delimiter);
-        cout << index << " is index where delimiter was found" <<endl;
         value = line.substr(0,index);
         ltrim(value);
+
+        // if(!validateID(value)){
+        //   getline(reader, line);
+        //   if(reader.eof()){
+        //     cout << "end of file" << endl;
+        //     return m_facultyBST;
+        //   }
+        //   cout << "VALUE: " << value << endl;
+        //   cout << "File contains bad input" << endl;
+        //   exit(0);
+        // }
         if(infoCounter == 0){
           id = stoi(value);
         }
@@ -145,9 +165,9 @@ BST<Faculty*>* FileProcessor::processFacultyFile(string fileInput){
           facultyToAdd = new Faculty(id, name, level, department);
         }
         if(infoCounter >= 4){
-          if(!validateID(value)){
-            break;
-          }
+          // if(!validateID(value)){
+          //   break;
+          // }
           facultyToAdd->addAdvisee(stoi(value));
           // if(line.length() < 4){
           //   facultyToAdd->addAdvisee(stoi(value));
@@ -163,10 +183,7 @@ BST<Faculty*>* FileProcessor::processFacultyFile(string fileInput){
           // }
 
         }
-        cout << "TOKEN:" << value << endl;
         line.erase(0, index + delimiter.length());
-        cout << "REST OF THE LINE IS:" << line << endl;
-        cout << "LENGTH OF THE REST OF THE LINE: " << line.length() << endl;
         infoCounter++;
 
       }
@@ -177,13 +194,13 @@ BST<Faculty*>* FileProcessor::processFacultyFile(string fileInput){
 
   }
 
-  cout << "BEFORE PRINTING FACULTY BST" << endl;
-  cout << m_facultyBST->serializedPrintNodes(serializedTree);
-  cout << "AFTER PRINTING FACULTY BST" << endl;
-
   return m_facultyBST;
 }
 
+/*
+method to write all of the information of a BST in serailized format to masterStudent file
+returns void
+*/
 void FileProcessor::serializeStudentBST(string outputFileStudent, BST<Student*>* studentBST){
   string serializedStudentTree = "";
   fstream writer;
@@ -194,6 +211,10 @@ void FileProcessor::serializeStudentBST(string outputFileStudent, BST<Student*>*
 
 }
 
+/*
+method to write all of the information of a BST in serailized format to masterFaculty file
+returns void
+*/
 void FileProcessor::serializeFacultyBST(string outputFileFaculty, BST<Faculty*>* facultyBST){
   string serializedFacultyTree = "";
   fstream writer;
@@ -203,6 +224,10 @@ void FileProcessor::serializeFacultyBST(string outputFileFaculty, BST<Faculty*>*
 
 }
 
+/*
+method to remove extra whitespace before our token value
+returns void
+*/
 void FileProcessor::ltrim(string &token){
   bool characterFound = false;
   while(characterFound == false){
@@ -215,28 +240,16 @@ void FileProcessor::ltrim(string &token){
   }
 }
 
-void FileProcessor::rtrim(string &token){
-  bool characterFound = false;
-  for(int i = token.size() - 1; characterFound == true; i--){
-    if(token[i] != ' '){
-      characterFound = true;
-    }else{
-      token.erase(i-1,1);
-    }
-  }
-}
 
+/*
+method to check if the ID value of a student or advisor is a valid value
+returns boolean indicating if the string contains a non printable character
+*/
 bool FileProcessor::validateID(string id) {
-  for (int i = 0; i < id.length() - 1; ++i) {
+  for (int i = 0; i < id.length(); ++i) {
     if (!isprint(id[i])) {
       return false;
     }
   }
   return true;
 }
-
-// every time u insert store a delete
-// every time u delete store an insert
-//
-// pointer to a student
-// pointer to a faculty

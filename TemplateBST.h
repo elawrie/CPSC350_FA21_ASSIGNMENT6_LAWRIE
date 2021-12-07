@@ -1,5 +1,5 @@
 /*
-Evelyn lawrie
+Evelyn Lawrie
 2364909
 lawrie@chapman.edu
 CPSC 350-01
@@ -106,7 +106,6 @@ returns a tree node representing the tree's root
 template <class T>
 TreeNode<T> BST<T>::getRoot() {
 
-  cout << "root is " << root << endl;
   return root;
 }
 
@@ -303,25 +302,17 @@ T BST<T>::find(int id) {
   else {
     // if tree is not empty, look for the value
     TreeNode<T> *current = root;
-    cout << "CURRENT KEY: " << current->key << endl;
-    cout << "CURRENT ID: " << current->key->getID() << endl;
     while (current->key->getID() != id) {
       if (id < current->key->getID()) {
-        cout << "GOING LEFT" << endl;
-        cout << "CURRENT LEFT KEY: " << endl;
-        // printNodes();
-        // current->left->key->print();
         current = current->left;
       }
       else {
-        cout << "GOING RIGHT" << endl;
         current = current->right;
       }
       if (current == NULL) {
         return NULL;
       }
     }
-    cout << "KEY: " << current->key << endl;
     return current->key;
   }
 }
@@ -339,8 +330,6 @@ bool BST<T>::deleteNode(T k) {
     return false;
   }
   if (!contains(k)) {
-    cout << "TREE RIGHT BEFORE DELETING:" << endl;
-    printNodes();
     // doesn't contain the value we want to delete
     cout << "Value doesn't exist, can't delete!" << endl;
     return false;
@@ -370,7 +359,7 @@ bool BST<T>::deleteNode(T k) {
   // check for no children
   if (current->left == NULL && current->right == NULL) {
     if (current == root) {
-      root == NULL;
+      root = NULL;
     }
     // check for if node is coming down from the left or right of a parent (if it's a left or right child)
     if (isLeft) {
@@ -430,6 +419,7 @@ bool BST<T>::deleteNode(T k) {
     // successor's left child has to go to current's left child
     successor->left = current->left;
   }
+  //return true;
 }
 
 /*
