@@ -54,7 +54,7 @@ void DatabaseSimulator::simulate() {
   bool didRollback;
   // validate BSTs from files
   cout << endl;
-  if (validateBSTs(masterStudent->root) == false) {
+  if ((validateBSTs(masterStudent->root) == false) || (validateBSTs(masterFaculty->root) == false)) {
     cout << "There is a mismatch of a student/faculty pair." << endl;
     return;
   }
@@ -179,7 +179,7 @@ void DatabaseSimulator::simulate() {
 
     }
     else if (userInput == "13") {
-      if (rollbackCount > 5) {
+      if (rollbackCount > 4) {
         cout << "Cannot undo more actions: rollback limit has been reached" << endl;
         continue;
       }
@@ -612,8 +612,13 @@ bool DatabaseSimulator::rollback(){
       rollbackStack->pop();
     }
     else{
-      rollbackStack->peek()->getFaculty()->addAdvisee(rollbackStack->peek()->getStudent()->getID());
-      rollbackStack->peek()->getStudent()->setAdvisor(rollbackStack->peek()->getFaculty()->getID());
+      if (rollbackStack->peek()->getFaculty() == NULL) {
+        rollbackStack->peek()->getStudent()->setAdvisor(0);
+      }
+      else {
+        rollbackStack->peek()->getFaculty()->addAdvisee(rollbackStack->peek()->getStudent()->getID());
+        rollbackStack->peek()->getStudent()->setAdvisor(rollbackStack->peek()->getFaculty()->getID());
+      }
       masterStudent->insert(rollbackStack->peek()->getStudent());
       rollbackStack->pop();
     }
@@ -672,6 +677,10 @@ parameter is a string representing the ID to check
 returns a boolean representing if the string is numeric or not
 */
 bool DatabaseSimulator::validateID(string id) {
+  if(id.length() == 1){
+    cout << "Invalid input" << endl;
+    return false;
+  }
   for (int i = 0; i < id.length() - 1; ++i) {
     if (!isdigit(id[i])) {
       cout << "Invalid input" << endl;
@@ -687,6 +696,15 @@ parameter is a string representing the GPA to check
 returns a boolean representing if the GPA is valid or not
 */
 bool DatabaseSimulator::validateGPA(string gpa) {
+  if(gpa.length() == 1){
+    if (!isdigit(gpa[0])) {
+      cout << "Invalid input" << endl;
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
   for (int i = 0; i < gpa.length() - 1; ++i) {
     if (!isdigit(gpa[i]) && (gpa[i] != '.')) {
       cout << "Invalid input" << endl;
@@ -708,19 +726,11 @@ bool DatabaseSimulator::validateBSTs(TreeNode<Student*> *node) {
   // traverse student tree
   validateBSTs(node->left);
   // check if each student's advisor exists in the faculty bst
-  if(masterFaculty->find(node->key->getAdvisor()) == NULL){
-    cout << "STUDENT IN ADVISOR DOESN'T EXIST: " << endl;
-    masterFaculty->printNodes();
-    masterStudent->printNodes();
-    node->key->print();
+  if((node->key->getAdvisor() != 0) && (masterFaculty->find(node->key->getAdvisor()) == NULL)){
     return false;
   }
   // check if each advisor has that student in their list of advisees
-  if(masterFaculty->find(node->key->getAdvisor())->m_advisees->find(node->key->getID()) == -1){
-    masterFaculty->printNodes();
-    masterStudent->printNodes();
-    cout << "STUDENT IN ADVISEE DOESN'T EXIST: " << endl;
-    node->key->print();
+  if((node->key->getAdvisor() != 0) && (masterFaculty->find(node->key->getAdvisor())->m_advisees->find(node->key->getID()) == -1)){
     return false;
   }
   validateBSTs(node->right);
@@ -728,6 +738,30 @@ bool DatabaseSimulator::validateBSTs(TreeNode<Student*> *node) {
 
 }
 
+/*
+method to validate the BSTs collected from input files
+input is a node representing the starting node of the tree to check referential integrity for
+returns a boolean representing if the trees uphold referential integrity
+*/
+bool DatabaseSimulator::validateBSTs(TreeNode<Faculty*> *node) {
+  if (node == NULL) { // base case
+    return true;
+  }
+  // traverse student tree
+  validateBSTs(node->left);
+  // check if each student's advisee exists in the student bst
+  DoubleListNode<int> *current = node->key->m_advisees->front;
+  while (current != NULL) {
+    if (masterStudent->find(current->data) == NULL) {
+      return false;
+    }
+    if (masterStudent->find(current->data)->getAdvisor() != node->key->getID()) {
+      return false;
+    }
+    current = current->next;
+  }
+  validateBSTs(node->right);
+}
 
 /*
 method to check if any students are missing an advisor and assign the given ID as their advisor

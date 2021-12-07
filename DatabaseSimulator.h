@@ -48,6 +48,7 @@ class DatabaseSimulator {
     bool validateID(string id); // method to validate a given ID
     bool validateGPA(string gpa); // method to validate a given GPA
     bool validateBSTs(TreeNode<Student*> *node); // method to validate the original BSTs for referential integrity
+    bool validateBSTs(TreeNode<Faculty*> *node); // other method to validate the original BSTs for referential integrity
     void validateStudents(TreeNode<Student*> *node, int facId); // method to assign students without an advisor to the given advisor
   private:
     FileProcessor *m_fp; // file processor

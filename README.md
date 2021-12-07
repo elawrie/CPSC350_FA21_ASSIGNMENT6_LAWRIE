@@ -38,28 +38,29 @@ TemplateStack.h
 
 3)
 
-For text files, keep the information in comma separated format, with the last item not having a comma
+All student information will be stored in studentTable.txt and all faculty information will be stored in facultyTable.txt. Both of these files start off blank.
 
-Do not enter miscellaneous text between students/faculty
+IDs are randomly generated for both students and faculty.
+
+For text files, keep the information in comma separated format, with the last item not having a comma.
+
+When a faculty member gets created, it checks if any students needs an advisor and automatically assigns them to the new faculty.
+
+If a student is created before any faculty members exist, their advisor will be set to 0.
 
 4)
 
-https://stackoverflow.com/questions/34170164/destructor-for-binary-search-tree Used for destructor
+https://stackoverflow.com/questions/34170164/destructor-for-binary-search-tree Used for destructor.
 
-https://www.tutorialspoint.com/cplusplus/relational_operators_overloading.htm Used this link to overload an operator
+https://www.tutorialspoint.com/cplusplus/relational_operators_overloading.htm Used this link to overload an operator.
 
-https://www.cplusplus.com/reference/cctype/isprint/ Used for working with non-printable characters
+https://www.cplusplus.com/reference/cctype/isprint/ Used for working with non-printable characters.
 
 5)
 
 Make all
 ./assignment6.out
 
-QUESTIONS:
-- is how we handle bad input files okay?
-- midterm thing
-- should we submit blank input files?
-- should we prompt the user for input/output files?
 
 1234, Rene German, Instructor, Computer Science, 2364909, 249
 1437, josh, ta, cs, 937

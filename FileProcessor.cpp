@@ -138,17 +138,6 @@ BST<Faculty*>* FileProcessor::processFacultyFile(string fileInput){
         index = line.find(delimiter);
         value = line.substr(0,index);
         ltrim(value);
-
-        // if(!validateID(value)){
-        //   getline(reader, line);
-        //   if(reader.eof()){
-        //     cout << "end of file" << endl;
-        //     return m_facultyBST;
-        //   }
-        //   cout << "VALUE: " << value << endl;
-        //   cout << "File contains bad input" << endl;
-        //   exit(0);
-        // }
         if(infoCounter == 0){
           id = stoi(value);
         }
@@ -165,22 +154,10 @@ BST<Faculty*>* FileProcessor::processFacultyFile(string fileInput){
           facultyToAdd = new Faculty(id, name, level, department);
         }
         if(infoCounter >= 4){
-          // if(!validateID(value)){
-          //   break;
-          // }
-          facultyToAdd->addAdvisee(stoi(value));
-          // if(line.length() < 4){
-          //   facultyToAdd->addAdvisee(stoi(value));
-          //   cout << "THIS IS USING THE PRINT SERIALIZED METHOD: " << facultyToAdd->printSerialized();
-          //   //facultyToAdd->m_advisees->printList(false);
-          //   cout << endl;
-          //   m_facultyBST->insert(facultyToAdd);
-          //   //facultyToAdd->print();
-          //   break;
-          // }
-          // else{
-          //   cout << "ADDING TO ADVISEES LIST" << endl;
-          // }
+
+          if(value.length() > 0){
+            facultyToAdd->addAdvisee(stoi(value));
+          }
 
         }
         line.erase(0, index + delimiter.length());
